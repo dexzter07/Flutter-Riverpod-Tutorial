@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_tut/provider/counter_provider.dart';
+import 'package:riverpod_tut/provider/todo_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -10,7 +10,7 @@ class HomeScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Counter App",
+          "Todo App",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
@@ -18,33 +18,33 @@ class HomeScreen extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "You have clicked this many times",
-              style: TextStyle(fontSize: 16),
-            ),
             Consumer(builder: (context, WidgetRef ref, Widget? child) {
-              final counter = ref.watch(counterProvider);
-
-              return Text(
-                counter.toString(),
-                style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              final todo = ref.watch(todoProvider);
+              return TextFormField(
+                controller: todo.todoData,
               );
             }),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
-            ElevatedButton(
-                onPressed: () {
-                  ref.read(counterProvider.notifier).decrement();
+            Consumer(builder: (context, WidgetRef ref, Widget? child) {
+              final todo = ref.watch(todoProvider);
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: todo.todoList.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(todo.todoList[index]),
+                  );
                 },
-                child: const Icon(Icons.delete))
+              );
+            }),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(counterProvider.notifier).increment();
+          ref.read(todoProvider.notifier).addTodo();
         },
         child: const Icon(Icons.add),
       ),
