@@ -22,7 +22,7 @@ class Todo extends _$Todo {
       state = TodoState(
           todoList: [...state.todoList, state.todoData.text],
           todoData: state.todoData);
-
+      print(state);
       state.todoData.clear();
     }
   }
