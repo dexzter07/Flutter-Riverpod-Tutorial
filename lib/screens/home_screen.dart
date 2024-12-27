@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           ),
           containerBuilder("TODO App", () {
             Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => TodoApp()),
+              MaterialPageRoute(builder: (context) => const TodoApp()),
             );
           }),
           const SizedBox(
